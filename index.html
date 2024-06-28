@@ -1,39 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Drifting Car 3D</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Website</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <!-- Include TinyColor library (from CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js"></script>
+    <script src="https://cdn.rawgit.com/ngokevin/aframe-click-component/v0.6.0/dist/aframe-click-component.min.js"></script>
     <style>
         body {
             margin: 0;
             overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #info {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            z-index: 1;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
-    <div id="scene-container">
-        <a-scene>
-            <!-- 3D Model -->
-            <a-entity
-                id="car"
-                gltf-model="/scene.gltf"
-                position="-2.5 -1.5 15"
-                scale="3 3 3.5"
-            ></a-entity>
-
-            <!-- Sky with initial color -->
-            <a-sky id="sky" color="#222"></a-sky>
-
-            <!-- Camera positioned dynamically -->
-            <a-entity id="cameraWrapper">
-                <a-camera></a-camera>
-            </a-entity>
-        </a-scene>
-    </div>
-    <script src="app.js"></script>
+    <a-scene>
+        <a-light type="ambient" color="#445451"></a-light>
+        <a-light type="point" intensity="2" position="2 4 4"></a-light>
+        <a-box 
+            position="-2 1 -5" 
+            rotation="0 45 0" 
+            color="#4CC3D9" 
+            animation="property: rotation; to: 0 405 0; loop: true; dur: 10000"
+            click-component
+            class="clickable"></a-box>
+        <a-sphere 
+            position="2 1.25 -3" 
+            radius="1.25" 
+            color="#EF2D5E" 
+            animation="property: position; to: 2 3 -3; dir: alternate; dur: 2000; loop: true"
+            click-component
+            class="clickable"></a-sphere>
+        <a-cylinder 
+            position="0 0.75 -2" 
+            radius="0.5" 
+            height="1.5" 
+            color="#FFC65D" 
+            animation="property: scale; to: 1.5 1.5 1.5; dir: alternate; dur: 2000; loop: true"
+            click-component
+            class="clickable"></a-cylinder>
+        <a-plane 
+            position="0 0 -4" 
+            rotation="-90 0 0" 
+            width="10" 
+            height="10" 
+            color="#7BC8A4" 
+            shadow></a-plane>
+        <a-text 
+            value="Creative 3D Website" 
+            width="6" 
+            position="-3 3 -6" 
+            color="#FFF"></a-text>
+    </a-scene>
+    <script>
+        AFRAME.registerComponent('click-component', {
+            init: function () {
+                this.el.addEventListener('click', () => {
+                    let currentColor = this.el.getAttribute('color');
+                    let newColor = currentColor === '#FF6347' ? '#4CC3D9' : '#FF6347';
+                    this.el.setAttribute('color', newColor);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
