@@ -1,84 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
+    <title>Drifting Car 3D</title>
+    <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Website with Earth</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/ngokevin/aframe-click-component/v0.6.0/dist/aframe-click-component.min.js"></script>
+    <!-- Include TinyColor library (from CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.2/tinycolor.min.js"></script>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
-        #info {
-            position: absolute;
-            bottom: 10px;
-            width: 100%;
-            text-align: center;
-            color: white;
-            z-index: 1;
-            font-size: 24px;
         }
     </style>
 </head>
 <body>
-    <div id="info">Click on the objects to interact</div>
-    <a-scene>
-        <a-sky color="#001a33"></a-sky>
+    <div id="scene-container">
+        <a-scene>
+            <!-- 3D Model -->
+            <a-entity
+                id="car"
+                gltf-model="/scene.gltf"
+                position="-2.5 -1.5 15"
+                scale="3 3 3.5"
+            ></a-entity>
 
-        <a-light type="ambient" color="#445451"></a-light>
-        <a-light type="point" intensity="2" position="2 4 4"></a-light>
+            <!-- Sky with initial color -->
+            <a-sky id="sky" color="#222"></a-sky>
 
-        <a-sphere
-            id="earth"
-            src="#earthTexture"
-            position="0 1.25 -5"
-            radius="1.25"
-            rotation="0 0 0"
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 10000"
-            click-component
-            class="clickable">
-        </a-sphere>
-        <a-assets>
-            <img id="earthTexture" src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/earth.jpg" crossorigin="anonymous"/>
-        </a-assets>
-
-        <a-plane
-            position="0 0 -4"
-            rotation="-90 0 0"
-            width="10"
-            height="10"
-            color="#7BC8A4"
-            shadow>
-        </a-plane>
-
-        <a-text
-            value="Creative 3D Website with Earth"
-            width="6"
-            position="-3 3 -6"
-            color="#FFF">
-        </a-text>
-
-        <a-entity
-            camera
-            look-controls
-            wasd-controls
-            position="0 1.6 0">
-        </a-entity>
-    </a-scene>
-
-    <script>
-        AFRAME.registerComponent('click-component', {
-            init: function () {
-                this.el.addEventListener('click', () => {
-                    let currentColor = this.el.getAttribute('color');
-                    let newColor = currentColor === '#FF6347' ? '#4CC3D9' : '#FF6347';
-                    this.el.setAttribute('color', newColor);
-                });
-            }
-        });
-    </script>
+            <!-- Camera positioned dynamically -->
+            <a-entity id="cameraWrapper">
+                <a-camera></a-camera>
+            </a-entity>
+        </a-scene>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
